@@ -14,7 +14,7 @@ export class ArticleComponent implements OnInit {
   alert = {
     status: '',
     data: '',
-    show: true
+    show: false
   };
   comment = '';
 
@@ -48,10 +48,7 @@ export class ArticleComponent implements OnInit {
     let sessionToken = JSON.parse(localStorage.getItem('currentUser'));
 
     this.apiService.deleteComment(articleId, commentId, sessionToken.token)
-    .then(data => {
-      alert(data);
-      this.comments.splice(idx, 1);
-    })
+    .then(data => this.comments.splice(idx, 1))
     .catch(error => alert(error));
   }
 
