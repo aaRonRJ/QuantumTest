@@ -1,0 +1,47 @@
+<div class="alert alert-danger alert-dismissible fade show mt-2 mb-4" role="alert" *ngIf="alert.show">
+  <strong>{{ alert.status }}</strong> {{ alert.data }}.
+  <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="container mb-4" *ngIf="article">
+  <div class="d-flex justify-content-between">
+      <h1>{{ article.title }}</h1>
+      <button type="button" class="btn btn-link" [routerLink]="['']">Volver</button>
+  </div>
+
+  <img src="http://www.quantumstudio.es/imgtest/{{ article.img }}" [alt]="article.title" class="figure-img img-fluid rounded">
+
+  <div class="d-flex justify-content-between">
+    <p>
+      <small class="text-muted">{{ article.writeDate }}</small>
+    </p>
+    <p class="badge badge-pill badge-primary">{{ article.category.name }}</p>
+  </div>
+  <p class="mb-5" [innerHtml]="article.text | safeHtml"></p>
+
+  <h3>Comentarios</h3>
+
+  <div class="comments" *ngIf="comments.length > 0">
+    <div class="card mb-2" *ngFor="let comment of comments; let index = $index">
+      <div class="card-body">
+        <h5 class="card-title">Comentario #{{ comment.id }}</h5>
+        <p class="card-text">{{ comment.text }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">{{ comment.writeDate }}</small>
+            <button type="button" class="btn btn-danger" (click)="deleteComment(comment.id, article.id, index)">Eliminar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="comments" *ngIf="comments.length <= 0">
+    <p>No hay comentarios.</p>
+  </div>
+  <div class="d-flex justify-content-between mt-2">
+    <input type="text" class="form-control" [(ngModel)]="comment" placeholder="Escribe tu comentario">
+    <button type="button" class="btn btn-link"
+    [disabled]="comment.length <= 0" (click)="addComment(article.id)">Añadir comentario</button>
+  </div>
+</div>
